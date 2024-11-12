@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">GeoQizz</string>
-    <string name="question_text">Canberra is the capital of Australia.</string>
+    <string name="question_australia">Москва - столица Австралии.</string>
+    <string name="question_kama">Кама впадает в Волгу.</string>
+    <string name="question_moon">Луна - это спутник земли.</string>
+    <string name="question_izhevsk">В Ижевске жил Петр I.</string>
+    <string name="question_dublin">Дублин - это французский город.</string>
+
     <string name="true_button">Да</string>
     <string name="false_button">Нет</string>
+    <string name="next_button">Далее</string>
     <string name="correct_toast">Правильный ответ</string>
     <string name="wrong_toast">Неверный ответ</string>
+
 </resources>
