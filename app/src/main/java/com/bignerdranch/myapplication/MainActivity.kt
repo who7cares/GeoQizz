@@ -4,14 +4,21 @@ import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
-    private lateinit var nextButton: Button
+
     private lateinit var questionTextView: TextView
+    private lateinit var numberOfQuestionTextView: TextView
+
+
+    private lateinit var nextButton: ImageView
+    private lateinit var previousButton: ImageView
+
 
     private  val questionBank: List<Question> = listOf(
         Question(R.string.question_australia, false),
@@ -26,11 +33,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
 
-        nextButton = findViewById(R.id.next_button)
-        questionTextView= findViewById(R.id.question_text_view)
+        questionTextView = findViewById(R.id.question_text_view)
+        numberOfQuestionTextView = findViewById(R.id.question_number)
+
+        nextButton = findViewById(R.id.right_arrow)
+        previousButton = findViewById(R.id.left_arrow)
+
 
         // сообщение о верном ответе
         trueButton.setOnClickListener {
@@ -48,6 +60,11 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
 
+        previousButton.setOnClickListener {
+            currentIndex = (currentIndex - 1 + questionBank.size) % questionBank.size
+            updateQuestion()
+        }
+
         // устанавливаем первое значение текста вопроса
         updateQuestion()
 
@@ -56,6 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
+        numberOfQuestionTextView.setText("№ вопроса: ${currentIndex + 1}")
     }
 
     // проверяем ответ пользователя и выводим Toast
@@ -73,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         )
 
-        toast.setGravity(Gravity.TOP or Gravity.LEFT, 0, 500)
+        toast.setGravity(Gravity.TOP,0,250)
         toast.show()
 
     }
