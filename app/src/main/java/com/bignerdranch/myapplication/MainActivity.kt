@@ -1,5 +1,6 @@
 package com.bignerdranch.myapplication
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 
@@ -8,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
+
+
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
@@ -15,10 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionTextView: TextView
     private lateinit var numberOfQuestionTextView: TextView
 
-
     private lateinit var nextButton: ImageView
     private lateinit var previousButton: ImageView
-
 
     private  val questionBank: List<Question> = listOf(
         Question(R.string.question_australia, false),
@@ -30,8 +31,13 @@ class MainActivity : AppCompatActivity() {
 
     private var currentIndex = 0
 
+    private var isAnswered = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         setContentView(R.layout.activity_main)
 
         trueButton = findViewById(R.id.true_button)
@@ -46,7 +52,11 @@ class MainActivity : AppCompatActivity() {
 
         // сообщение о верном ответе
         trueButton.setOnClickListener {
-            chekAnswer(true)
+            if (!isAnswered) {
+                chekAnswer(true)
+                isAnswered = true
+                disableButtons()  // Блокируем кнопки
+            }
         }
 
         // сообщение о неверном ответе
@@ -70,6 +80,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
@@ -83,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             R.string.correct_toast
         } else {
             R.string.wrong_toast
+
         }
 
         val toast = Toast.makeText(
@@ -96,4 +110,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // Блокируем кнопки ответов
+    private fun disableButtons() {
+        trueButton.isEnabled = false
+        falseButton.isEnabled = false
+    }
+
+    // Включаем кнопки ответов
+    private fun enableButtons() {
+        trueButton.isEnabled = true
+        falseButton.isEnabled = true
+    }
 }
+
+}
+
