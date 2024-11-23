@@ -12,6 +12,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:padding="24dp" />
 
     <TextView
@@ -22,17 +23,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
+            android:background="@color/orange"
             android:id="@+id/true_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/true_button" />
+
         <Button
+            android:background="@color/green"
             android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,5 +67,14 @@
             android:layout_margin="15dp"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/user_score"
+        android:gravity="center"
+        tools:text = "@string/user_score"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp" />
 
 </LinearLayout>

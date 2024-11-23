@@ -1,4 +1,5 @@
 package com.bignerdranch.myapplication
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -12,11 +13,14 @@ import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
+
+
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
 
     private lateinit var questionTextView: TextView
     private lateinit var numberOfQuestionTextView: TextView
+    private lateinit var userScoreText: TextView
 
     private lateinit var nextButton: ImageView
     private lateinit var previousButton: ImageView
@@ -30,15 +34,16 @@ class MainActivity : AppCompatActivity() {
     )
 
     private var currentIndex = 0
+    private var userScore = 0
 
-    private var isAnswered = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
         setContentView(R.layout.activity_main)
+
+
+        userScoreText = findViewById(R.id.user_score)
+
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -52,12 +57,9 @@ class MainActivity : AppCompatActivity() {
 
         // сообщение о верном ответе
         trueButton.setOnClickListener {
-            if (!isAnswered) {
-                chekAnswer(true)
-                isAnswered = true
-                disableButtons()  // Блокируем кнопки
-            }
+            chekAnswer(true)
         }
+
 
         // сообщение о неверном ответе
         falseButton.setOnClickListener {
@@ -81,22 +83,36 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
-        questionTextView.setText(questionTextResId)
+
+
+        // устанавливаем активность кнопки для нового вопроса
+        trueButton.isEnabled = questionBank[currentIndex].buttonState
+        falseButton.isEnabled = questionBank[currentIndex].buttonState
+
+        // устанавливаем новый вопрос из листа вопросов
+        questionTextView.setText(questionBank[currentIndex].textResId)
+        // устанавливаем номер вопроса
         numberOfQuestionTextView.setText("№ вопроса: ${currentIndex + 1}")
     }
 
     // проверяем ответ пользователя и выводим Toast
     private fun chekAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
-        val messageResId = if (userAnswer == correctAnswer) {
-            R.string.correct_toast
-        } else {
-            R.string.wrong_toast
 
+
+        // блокируем кнопки посл ответа пользователя
+        questionBank[currentIndex].buttonState = false
+
+        trueButton.isEnabled = questionBank[currentIndex].buttonState
+        falseButton.isEnabled = questionBank[currentIndex].buttonState
+
+        val correctAnswer = questionBank[currentIndex].answer
+        val messageResId: Int
+
+        if (userAnswer == correctAnswer) {
+            messageResId = R.string.correct_toast
+        } else {
+            messageResId = R.string.wrong_toast
         }
 
         val toast = Toast.makeText(
@@ -105,23 +121,21 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         )
 
-        toast.setGravity(Gravity.TOP,0,250)
         toast.show()
+    }
+
+    private fun userScore(answer: Boolean) {
+        if (answer) {
+            userScore++
+        }
+
+        if (currentIndex == questionBank.size) {
+
+        }
 
     }
 
-    // Блокируем кнопки ответов
-    private fun disableButtons() {
-        trueButton.isEnabled = false
-        falseButton.isEnabled = false
-    }
-
-    // Включаем кнопки ответов
-    private fun enableButtons() {
-        trueButton.isEnabled = true
-        falseButton.isEnabled = true
-    }
 }
 
-}
+
 

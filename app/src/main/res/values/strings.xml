@@ -11,5 +11,6 @@
     <string name="next_button">Далее</string>
     <string name="correct_toast">Правильный ответ</string>
     <string name="wrong_toast">Неверный ответ</string>
+    <string name="user_score">Процент правильных ответов: </string>
 
 </resources>
